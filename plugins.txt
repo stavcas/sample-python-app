@@ -1,0 +1,9 @@
+configuration-as-code:1775.v810dc950b_514
+matrix-auth:3.2.1
+job-dsl:1.87
+sonar:2.17.1
+docker-plugin:1.5
+credentials:1319.v7eb_51b_3a_c97b_
+workflow-job:1385.vb_58b_86ea_fff1
+workflow-aggregator:596.v8c21c963d92d
+git:5.2.1
