@@ -1,7 +1,7 @@
-FROM --platform=$BUILDPLATFORM jenkins/jnlp-agent-python3 AS builder
+FROM jenkins/agent AS builder
 
-WORKDIR /build
-
-COPY requirements.txt /build
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+USER root
+RUN apt update && apt install -y python3 python3-pip 
+COPY requirements.txt  .
+USER jenkins
+RUN pip3 install -r requirements.txt --break-system-packages

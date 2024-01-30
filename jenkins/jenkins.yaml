@@ -21,7 +21,7 @@ jenkins:
           - labelString: "docker-agent"
             dockerTemplateBase:
               # TODO: pin sha256 or versions when using in production
-              image: "jenkins/agent"
+              image: "stavcas/python-jenkins-agent:1.0"
               mounts:
                 - "type=tmpfs,destination=/run"
                 - "type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock"
@@ -36,6 +36,10 @@ jenkins:
             instanceCapStr: "10"
             retentionStrategy:
               idleMinutes: 1
+
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
 
 credentials:
   system:
@@ -78,19 +82,16 @@ jobs:
           cps {
             script("""\
               pipeline {
+                triggers { pollSCM '* * * * *' }
                 agent { label 'docker-agent'}
                 stages {
                   stage('pull_prep') {
                     steps {
-                      checkout scmGit(
+                      checkout poll: true, 
+                      scm: scmGit(
                         branches: [[name: 'main']],
-                        userRemoteConfigs: [[url: 'https://github.com/stavcas/sample-python-app']])
-                      sh """apt-get update && apt-get install -y --no-install-recommends \
-                      python3.5 \
-                      python3-pip \
-                      && \
-                      apt-get clean && \
-                      rm -rf /var/lib/apt/lists/*"""
+                        userRemoteConfigs: [[refspec: '+refs/pull/*:refs/pull/*',
+                                             url: 'https://github.com/stavcas/sample-python-app']])
                     }
                   }
                   stage('CodeFormat') {
