@@ -44,6 +44,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/local/bin/docker:/usr/local/bin/docker
       - ./jenkins.yaml:/var/jenkins_home/jenkins.yaml
+      - ./casc_jobs:/var/jenkins_home/casc_jobs
 
 volumes:
   sonarqube_data:
