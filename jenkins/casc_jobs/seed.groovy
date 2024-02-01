@@ -2,8 +2,9 @@ multibranchPipelineJob('example') {
     branchSources {
         git {
             id('123456789') // IMPORTANT: use a constant and unique identifier
-            remote('https://github.com/stavcas/sample-python-app')
-            includes('main')
+            
+            repoOwner('stavcas')
+            repository('sample-python-app')
         }
     }
     orphanedItemStrategy {

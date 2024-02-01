@@ -46,18 +46,23 @@ credentials:
     domainCredentials:
       - credentials:
         - string:
-            scope: GLOBAL
-            id: "token"
-            secret: "secret value"
-            description: "Sonar token"
+          scope: GLOBAL
+          id: "sonar_token"
+          secret: "secret value"
+          description: "Sonar token"
+        - string:
+          scope: GLOBAL
+          id: "github_token"
+          secret: "${GITHUB_TOKEN}"
+
 
 unclassified:
   sonarglobalconfiguration:                  # mandatory
     buildWrapperEnabled: true
     installations:                           # mandatory
       - name: "TEST"                         # id of the SonarQube configuration - to be used in jobs
-        serverUrl: "http://url:9000"
-        credentialsId: token       # id of the credentials containing sonar auth token (since 2.9 version)
+        serverUrl: "http://soanrqube:9000"
+        credentialsId: sonar_token       # id of the credentials containing sonar auth token (since 2.9 version)
         #serverAuthenticationToken: "token"   # for retrocompatibility with versions < 2.9
         mojoVersion: "mojoVersion"
         additionalProperties: "blah=blah"
